@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FrontController extends Controller
+class ChatController extends Controller
 {
     public function index(){
-    	return view('chat/index');
+    	return view('index');
     }
 }
