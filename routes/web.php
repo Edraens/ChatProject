@@ -14,7 +14,10 @@
 Auth::routes();
 // post workaround for logout
 Route::get('/logout', 'Auth\LoginController@logout');
-Route::get('/', 'FrontController@index');
+Route::get('/', 'ChatController@index');
+Route::get('/contacts', 'ContactsController@showall');
+Route::post('/contacts', 'ContactsController@add');
+Route::get('/contacts/{id}/delete', 'ContactsController@delete')->where('id', '[0-9]+');
 
 // Route::post('/', 'PasteController@submit');
 // Route::get('/{link}', 'PasteController@view')->where('link', '[a-zA-Z0-9]+');
