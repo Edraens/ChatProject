@@ -36,7 +36,7 @@
 	</tbody>
 </table>
 <div class="row"></div>
-<h3>Nouveau contact</h3>
+<h3>Nouveau contact (tmp)</h3>
 <form action="/contacts" method="post" accept-charset="utf-8">
 	{{ csrf_field() }}
 	<div class="row">

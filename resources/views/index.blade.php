@@ -18,6 +18,6 @@
 
 @section('content')
 <div class="container">
-	<h1>ChatProject, WIP</h1>
+	<h1>ChatProject, WIP !</h1>
 </div>
 @endsection
