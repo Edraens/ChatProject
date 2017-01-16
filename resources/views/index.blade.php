@@ -1,6 +1,6 @@
 @extends('layouts/default')
 
-@section('pagetitle') ChatProjet @endsection
+@section('pagetitle') ChatProject @endsection
 
 @section('navbar')
 <li class="nav-item active"><a href="#" class="nav-link">Accueil</a></li>
