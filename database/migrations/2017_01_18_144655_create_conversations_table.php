@@ -17,7 +17,7 @@ class CreateConversationsTable extends Migration
             $table->increments('id');
             $table->integer('userId');
             $table->integer('destId');
-            $table->boolean('hasUnread')
+            $table->boolean('hasUnread');
             $table->timestamps();
         });
     }
