@@ -18,7 +18,14 @@ class ChatController extends Controller
 			return redirect('/token/renew');
 		}
 		$user = User::where('id', Auth::user()->id)->first();
-		return view('conversationList', ['token' => $token->token, 'user' => $user]);
+
+		$conversations = Conversation::where('userId', Auth::user()->id)->get();
+		$nameToConv = [];
+		foreach ($conversations as $conversation){
+			$nameToConv[$conversation->id] = Conversation::where('userId', Auth::user()->id)->first()->user->email;
+		}
+
+		return view('conversationList', ['conversations' => $conversations, 'nameToConv' => $nameToConv, 'token' => $token->token, 'user' => $user]);
 	}
 
 	public function openConversation($email){
@@ -29,13 +36,28 @@ class ChatController extends Controller
 		$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();
 		if (is_null($findConversation)) {
 			Conversation::create([
-			'userId' => Auth::user()->id,
-			'destId' => $findDest->id,
-			'hasUnread' => false,
-			'lastActivity' => time(),
-			]);
+				'userId' => Auth::user()->id,
+				'destId' => $findDest->id,
+				'hasUnread' => false,
+				'lastActivity' => time(),
+				]);
 			$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();
 		}
 		return redirect('/conversation/'.$findConversation->id);
+	}
+
+	public function show($id){
+		if (!Auth::check()) return redirect('/login');
+		$conv = Conversation::where('id', $id)->firstOrFail();
+		if ($conv->userId != Auth::user()->id) return view('errors/404');
+		return ($id);
+	}
+
+	public function delete($id){
+		if (!Auth::check()) return redirect('/login');
+		$conversation = Conversation::where('id', $id)->firstOrFail();
+		if ($conversation->userId != Auth::user()->id) return redirect('/login');
+		$conversation->forceDelete();
+		return redirect('/');
 	}
 }

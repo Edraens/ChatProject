@@ -20,6 +20,9 @@ Route::post('/contacts', 'ContactsController@add');
 Route::get('/contacts/{id}/delete', 'ContactsController@delete')->where('id', '[0-9]+');
 Route::get('/open/{email}', 'ChatController@openConversation');
 
+Route::get('/conversation/{id}', 'ChatController@show')->where('id', '[0-9]+');
+Route::get('/conversation/{id}/delete', 'ChatController@delete')->where('id', '[0-9]+');
+
 Route::get('/token/get', 'TokenController@get');
 Route::get('/token/renew', 'TokenController@renew');
 
