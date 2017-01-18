@@ -19,4 +19,11 @@ class ChatController extends Controller
 		$user = User::where('id', Auth::user()->id)->first();
 		return view('conversationList', ['token' => $token->token, 'user' => $user]);
 	}
+
+	public function openConversation($email){
+		if (!Auth::check()) return redirect('/login');
+		$user = User::where('email', $email)->firstOrFail();
+		if ($user->id == Auth::user()->id) return view('errors/404');
+		return ($user->email);
+	}
 }
