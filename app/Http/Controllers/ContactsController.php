@@ -17,7 +17,6 @@ class ContactsController extends Controller
 	}
 
 	public function add(Request $request){
-		dd($request);
 		if (!Auth::check()) return redirect('/login');
 		$this->validate($request, [
 			'name' => 'max:40|required',
