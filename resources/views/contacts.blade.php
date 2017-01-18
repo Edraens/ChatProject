@@ -29,7 +29,7 @@
 		<tr>
 			<th scope="row"><i>{{ $loop->iteration }}</i></th>
 			<td>{{ $contact->name }}</td>
-			<td><a href="/conversation/{{ $contact->email }}">{{ $contact->email }}</a></td>
+			<td><a href="/open/{{ $contact->email }}">{{ $contact->email }}</a></td>
 			<td><a class="btn btn-danger btn-sm pull-right" href="/contacts/{{ $contact->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
 		</tr>
 		@endforeach

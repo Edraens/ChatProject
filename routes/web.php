@@ -19,6 +19,9 @@ Route::get('/contacts', 'ContactsController@showall');
 Route::post('/contacts', 'ContactsController@add');
 Route::get('/contacts/{id}/delete', 'ContactsController@delete')->where('id', '[0-9]+');
 
+Route::get('/token/get', 'TokenController@get');
+Route::get('/token/renew', 'TokenController@renew');
+
 // Route::post('/', 'PasteController@submit');
 // Route::get('/{link}', 'PasteController@view')->where('link', '[a-zA-Z0-9]+');
 // Route::post('/{link}', 'PasteController@password')->where('link', '[a-zA-Z0-9]+');

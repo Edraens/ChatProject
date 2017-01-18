@@ -34,6 +34,8 @@ class ContactsController extends Controller
 		return redirect('/contacts');
 	}
 
+	public function openConversation($)
+
 	public function delete($id){
 		if (!Auth::check()) return redirect('/login');
 		$contact = Contact::where('id', $id)->firstOrFail();
