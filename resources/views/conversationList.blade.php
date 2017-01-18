@@ -14,6 +14,6 @@
 @section('content')
 <div class="container">
 	<h2>{{ $user->email }}</h2>
-	<i>Token : <a href="/token/renew">{{ $token->token }}</a></i>
+	<i>Token : <a href="/token/renew">{{ $token }}</a></i>
 </div>
 @endsection

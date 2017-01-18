@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;
 use Auth;
+use App\User;
 use \Input;
 
 class ContactsController extends Controller
@@ -34,7 +35,12 @@ class ContactsController extends Controller
 		return redirect('/contacts');
 	}
 
-	public function openConversation($)
+	public function openConversation($email){
+		if (!Auth::check()) return redirect('/login');
+		$user = User::where('email', $email)->firstOrFail();
+		if ($user->id == Auth::user()->id) return view('errors/404');
+		return ($user->email);
+	}
 
 	public function delete($id){
 		if (!Auth::check()) return redirect('/login');

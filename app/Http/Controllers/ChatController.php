@@ -13,7 +13,10 @@ class ChatController extends Controller
 		if (!Auth::check()) return view('index');
 
 		$token = Token::where('userId', Auth::user()->id)->first();
+		if (is_null($token)) {
+			return redirect('/token/renew');
+		}
 		$user = User::where('id', Auth::user()->id)->first();
-		return view('conversationList', ['token' => $token, 'user' => $user]);
+		return view('conversationList', ['token' => $token->token, 'user' => $user]);
 	}
 }

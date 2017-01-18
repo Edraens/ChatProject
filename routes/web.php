@@ -18,6 +18,7 @@ Route::get('/', 'ChatController@index');
 Route::get('/contacts', 'ContactsController@showall');
 Route::post('/contacts', 'ContactsController@add');
 Route::get('/contacts/{id}/delete', 'ContactsController@delete')->where('id', '[0-9]+');
+Route::get('/open/{email}', 'ContactsController@openConversation');
 
 Route::get('/token/get', 'TokenController@get');
 Route::get('/token/renew', 'TokenController@renew');
