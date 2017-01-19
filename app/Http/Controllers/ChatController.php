@@ -13,19 +13,14 @@ class ChatController extends Controller
 	public function index(){
 		if (!Auth::check()) return view('index');
 
-		$token = Token::where('userId', Auth::user()->id)->first();
-		if (is_null($token)) {
-			return redirect('/token/renew');
-		}
+		// $token = Token::where('userId', Auth::user()->id)->first();
+		// if (is_null($token)) {
+		// 	return redirect('/token/renew');
+		// }
 		$user = User::where('id', Auth::user()->id)->first();
 
 		$conversations = Conversation::where('userId', Auth::user()->id)->get();
-		$nameToConv = [];
-		foreach ($conversations as $conversation){
-			$nameToConv[$conversation->id] = Conversation::where('userId', Auth::user()->id)->first()->user->email;
-		}
-
-		return view('conversationList', ['conversations' => $conversations, 'nameToConv' => $nameToConv, 'token' => $token->token, 'user' => $user]);
+		return view('conversationList', ['conversations' => $conversations, 'user' => $user]); // 'token' => $token->token, 
 	}
 
 	public function openConversation($email){

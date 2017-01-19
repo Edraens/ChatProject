@@ -14,7 +14,7 @@
 @section('content')
 <div class="container">
 	<h2>{{ $user->email }}</h2>
-	<i>Token : <a href="/token/renew">{{ $token }}</a></i>
+	<i>Token : <a href="/token/renew">{{ $user->token->token }}</a></i>
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
@@ -26,7 +26,7 @@
 	</tbody>
 	@foreach ($conversations as $conversation)
 	<tr>
-		<td><a href="/conversation/{{ $conversation->id }}">{{ $nameToConv[$conversation->id] }}</a></td>
+		<td><a href="/conversation/{{ $conversation->id }}">{{ $conversation->user->email }}</a></td>
 		<td>TODO</a></td>
 		<td><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
 	</tr>

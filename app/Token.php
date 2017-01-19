@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Token extends Model
 {
-  	protected $fillable=['userId', 'token'];
+	protected $fillable=['userId', 'token'];
+
+	public function user()
+	{
+		return $this->belongsTo('App\User', 'userId');
+	}
 }
