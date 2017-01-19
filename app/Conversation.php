@@ -8,7 +8,7 @@ class Conversation extends Model
 {
     protected $fillable=['userId', 'destId', 'hasUnread', 'lastActivity'];
 
-     public function user()
+     public function destUser()
     {
         return $this->belongsTo('App\User', 'destId', 'id');
     }

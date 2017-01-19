@@ -5,7 +5,8 @@
 @section('navbar')
 <li class="nav-item"><a href="/" class="nav-link">Accueil</a></li>
 <li class="nav-item active"><a href="#" class="nav-link">Contacts</a></li>
-<li class="nav-item"><a href="/logout" class="nav-link">Déconnexion <i>({{ Auth::user()->email }})</i></a></li>
+<li class="nav-item"><a href=" /account" class="nav-link">Compte</a></li>
+<li class="nav-item"><a href="/logout" class="nav-link">Déconnexion <i>({{ Auth::user()->name }})</i></a></li>
 @endsection
 
 @section('script')
@@ -13,7 +14,7 @@
 
 @section('content')
 <div class="container">
-	<div class="row">
+
 		<h2 class="text-center display-4">Contacts</h2>
 		<table class="table table-striped table-hover">
 			<thead>
