@@ -19,7 +19,7 @@
 <div class="text-center">
 <div class="jumbotron">
   <h1><i>Erreur 404</i></h1>
-  <p class="lead hidden-xs">Ce que vous recherchez n'a pas été trouvé, vérifiez l'ortographe de la requête.</p>
+  <p class="lead hidden-xs">Impossible de trouver la conversation, l'utilisateur, le message ou la page demandée.</p>
   <hr class="m-y-2">
   <p class="lead">
     <a class="btn btn-danger btn-lg" href="/" role="button">Retour à l'accueil</a>

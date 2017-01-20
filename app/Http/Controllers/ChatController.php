@@ -7,6 +7,7 @@ use App\Token;
 use Auth;
 use App\User;
 use App\Conversation;
+use \Input;
 
 class ChatController extends Controller
 {
@@ -26,6 +27,27 @@ class ChatController extends Controller
 	public function openConversation($email){
 		if (!Auth::check()) return redirect('/login');
 		$findDest = User::where('email', $email)->firstOrFail();
+		if ($findDest->id == Auth::user()->id) return view('errors/404');
+		
+		$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();
+		if (is_null($findConversation)) {
+			Conversation::create([
+				'userId' => Auth::user()->id,
+				'destId' => $findDest->id,
+				'hasUnread' => false,
+				'lastActivity' => time(),
+				]);
+			$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();
+		}
+		return redirect('/conversation/'.$findConversation->id);
+	}
+
+	public function openConversationPOST(Request $request){
+		$this->validate($request, [
+			'email' => 'max:50|required|email',
+			]);
+		if (!Auth::check()) return redirect('/login');
+		$findDest = User::where('email', Input::get('email'))->firstOrFail();
 		if ($findDest->id == Auth::user()->id) return view('errors/404');
 		
 		$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();

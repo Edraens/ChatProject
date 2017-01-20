@@ -16,6 +16,7 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', 'ChatController@index');
+Route::post('/', 'ChatController@openConversationPOST');
 Route::get('/contacts', 'ContactsController@showall');
 Route::post('/contacts', 'ContactsController@add');
 
