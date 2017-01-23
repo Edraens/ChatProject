@@ -12,4 +12,9 @@ class Conversation extends Model
     {
         return $this->hasOne('App\User', 'id', 'destId');
     }
+
+    public function message()
+    {
+        return $this->hasMany('App\Message', 'id', 'conversationId');
+    }
 }

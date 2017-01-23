@@ -29,7 +29,7 @@
 		</div> --}}
 
 
-{{-- 		<table class="table table-striped table-hover">
+		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
 					<th>Nom</th>
@@ -37,13 +37,14 @@
 					<th class="pull-right">Supprimer</th>
 				</tr>
 			</thead>
-		@foreach ($conversations as $conversation)
+		@foreach ($conv->message as $msg)
 		<tr>
-			<td><a href="/conversation/{{ $conversation->id }}" data-toggle="tooltip" title="{{ $conversation->destUser->email }}" data-placement="right">{{ $conversation->destUser->name }}</a></td>
+{{-- 			<td><a href="/conversation/{{ $conversation->id }}" data-toggle="tooltip" title="{{ $conversation->destUser->email }}" data-placement="right">{{ $conversation->destUser->name }}</a></td>
 			<td>TODO</td>
-			<td><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
+			<td><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td> --}}
+			<td>{{ $msg->id }}</td>
 		</tr>
 		@endforeach
-	</table> --}}
+	</table>
 </div>
 @endsection
