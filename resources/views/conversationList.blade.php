@@ -29,7 +29,7 @@
 	<div class="row">
 		<div class="col-md-3"><h2>Conversations</h2></div>
 		<div class="pull-right col-md-4 hidden-sm hidden-xs">
-			<h4 class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></h4>
+			<span class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></span><br />
 			<i class="pull-right">Token : <a href="/token/renew">{{ $user->token->token }}</a></i>		
 		</div>
 	</div>
@@ -39,8 +39,13 @@
 		<tbody>
 			@foreach ($conversations as $conversation)
 			<tr>
-				<td><a href="/conversation/{{ $conversation->id }}" data-toggle="tooltip" title="{{ $conversation->destUser->email }}" data-placement="right">{{ $conversation->destUser->name }}</a></td>
-				<td>TODO</td>
+				<td class="col-xs-2"><a href="/conversation/{{ $conversation->id }}" data-toggle="tooltip" title="{{ $conversation->destUser->email }}" data-placement="right">{{ $conversation->destUser->name }}</a></td>
+				@if ($lastMessage[$conversation->id] != "")
+				<td class="col-xs-2 hidden-xs"><span class="hidden-xs"><small>{{ $lastMessage[$conversation->id]->created_at->format('d/m/Y') }}</small></span> <b>{{ $lastMessage[$conversation->id]->created_at->format('H:i:s') }}</b>  </td>
+				<td class="col-xs-8">@if ($lastMessage[$conversation->id]->sender->id == Auth::user()->id) <i> @else <b> @endif @if (strlen($lastMessage[$conversation->id]->content) <= 60) {{ $lastMessage[$conversation->id]->content }} @else {{ mb_substr($lastMessage[$conversation->id]->content,0,60,'UTF-8') }}... @endif  @if ($lastMessage[$conversation->id]->sender->id == Auth::user()->id) </i> @else </b> @endif</td>
+				@else
+				<td><i>Aucun message</i></td>
+				@endif
 				<td class="pull-right"><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
 			</tr>
 			@endforeach

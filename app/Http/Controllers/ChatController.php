@@ -22,7 +22,11 @@ class ChatController extends Controller
 		$user = User::where('id', Auth::user()->id)->first();
 
 		$conversations = Conversation::where('userId', Auth::user()->id)->get();
-		return view('conversationList', ['conversations' => $conversations, 'user' => $user]); // 'token' => $token->token, 
+		foreach ($conversations as $conversation) {
+			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
+			if (empty($lastMessage[$conversation->id])) $lastMessage[$conversation->id] = "";
+		}
+		return view('conversationList', ['conversations' => $conversations, 'user' => $user, 'lastMessage' => $lastMessage]); // 'token' => $token->token, 
 	}
 
 	public function openConversation($email){
@@ -68,12 +72,15 @@ class ChatController extends Controller
 		if (!Auth::check()) return redirect('/login');
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
-
+		$messages = Message::where('conversationId', $conv->id)->get();
 		// dd($conv->messages);
-		return view('conversation', ['conv' => $conv]);
+		return view('conversation', ['conv' => $conv, 'messages' => $messages]);
 	}
 
-	public function send($id){
+	public function send($id, Request $request){
+		$this->validate($request, [
+			'msg' => 'required',
+			]);
 		if (!Auth::check()) return redirect('/login');
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
@@ -81,31 +88,42 @@ class ChatController extends Controller
 		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', Auth::user()->id]])->first();
 
 		Message::create([
-				'fromUser' => Auth::user()->id,
-				'belongsTo' => Auth::user()->id,
-				'toUser' => $conv->destUser->id,
-				'content' => Input::get('msg'),
-				'conversationId' => $conv->id,
-				'unread' => false,
-				]);
+			'fromUser' => Auth::user()->id,
+			'belongsTo' => Auth::user()->id,
+			'toUser' => $conv->destUser->id,
+			'content' => Input::get('msg'),
+			'conversationId' => $conv->id,
+			'unread' => false,
+			]);
 
 		Message::create([
-				'fromUser' => Auth::user()->id,
-				'belongsTo' => $conv->destUser->id,
-				'toUser' => $conv->destUser->id,
-				'content' => Input::get('msg'),
-				'conversationId' => $correspConv->id,
-				'unread' => true,
-				]);
+			'fromUser' => Auth::user()->id,
+			'belongsTo' => $conv->destUser->id,
+			'toUser' => $conv->destUser->id,
+			'content' => Input::get('msg'),
+			'conversationId' => $correspConv->id,
+			'unread' => true,
+			]);
 
 		return redirect('/conversation/'.$conv->id);
 	}
 
-	public function delete($id){
+	public function deleteConversation($id){
 		if (!Auth::check()) return redirect('/login');
 		$conversation = Conversation::where('id', $id)->firstOrFail();
 		if ($conversation->userId != Auth::user()->id) return redirect('/login');
+		$messages = Message::where('conversationId', $id);
+		$messages->forceDelete();
 		$conversation->forceDelete();
 		return redirect('/');
+	}
+
+	public function deleteMessage($id){
+		if (!Auth::check()) return redirect('/login');
+		$message = Message::where('id', $id)->firstOrFail();
+		$convId = $message->conversation->id;
+		if ($message->belongsTo != Auth::user()->id) return redirect('/login');
+		$message->forceDelete();
+		return redirect('/conversation/'.$convId);
 	}
 }
