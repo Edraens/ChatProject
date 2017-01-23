@@ -21,9 +21,10 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-		<h2>{{ $conv->destUser->name }}</h2>
-		<i>{{ $conv->destUser->email }}</i>
+			<h2>{{ $conv->destUser->name }}</h2>
+			<i class="pull-right">{{ $conv->destUser->email }}</i>
 		</div>
+	</div>
 {{-- 		<div class="pull-right col-md-4 hidden-sm hidden-xs">
 			<h4 class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></h4>
 			<i class="pull-right">Token : <a href="/token/renew">{{ $user->token->token }}</a></i>		</div>
@@ -45,6 +46,6 @@
 			<td><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
 		</tr>
 		@endforeach
-		</table> --}}
+	</table> --}}
 </div>
 @endsection
