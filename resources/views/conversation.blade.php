@@ -37,7 +37,7 @@
 					<th class="pull-right">Supprimer</th>
 				</tr>
 			</thead>
-		@foreach ($conv->message as $msg)
+		@foreach ($conv->messages as $msg)
 		<tr>
 {{-- 			<td><a href="/conversation/{{ $conversation->id }}" data-toggle="tooltip" title="{{ $conversation->destUser->email }}" data-placement="right">{{ $conversation->destUser->name }}</a></td>
 			<td>TODO</td>

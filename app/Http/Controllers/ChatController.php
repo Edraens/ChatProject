@@ -69,7 +69,7 @@ class ChatController extends Controller
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
 
-
+		dd($conv->messages);
 		return view('conversation', ['conv' => $conv]);
 	}
 
