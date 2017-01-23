@@ -43,6 +43,7 @@
 			<td>TODO</td>
 			<td><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td> --}}
 			<td>{{ $msg->id }}</td>
+			<td>{{ $msg->content }}</td>
 		</tr>
 		@endforeach
 	</table>
