@@ -86,7 +86,7 @@ class ChatController extends Controller
 				'toUser' => $conv->destUser->id,
 				'content' => Input::get('msg'),
 				'conversationId' => $conv->id,
-				'unread' => false;
+				'unread' => false,
 				]);
 
 		Message::create([
