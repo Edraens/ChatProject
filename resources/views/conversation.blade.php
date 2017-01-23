@@ -20,7 +20,10 @@
 @section('content')
 <div class="container">
 	<div class="row">
-		<div class="col-md-3"><h2>{{ $conv->destUser->name }}</h2></div>
+		<div class="col-md-3">
+		<h2>{{ $conv->destUser->name }}</h2>
+		<i>{{ $conv->destUser->email }}</i>
+		</div>
 {{-- 		<div class="pull-right col-md-4 hidden-sm hidden-xs">
 			<h4 class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></h4>
 			<i class="pull-right">Token : <a href="/token/renew">{{ $user->token->token }}</a></i>		</div>
