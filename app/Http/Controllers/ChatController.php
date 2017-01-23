@@ -95,7 +95,7 @@ class ChatController extends Controller
 				'toUser' => $conv->destUser->id,
 				'content' => Input::get('msg'),
 				'conversationId' => $correspConv->id,
-				'unread' => true;
+				'unread' => true,
 				]);
 
 		return redirect('/conversation/'.$conv->id);
