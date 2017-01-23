@@ -67,7 +67,9 @@ class ChatController extends Controller
 		if (!Auth::check()) return redirect('/login');
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
-		return ($id);
+
+
+		return view('conversation', ['conv' => $conv]);
 	}
 
 	public function delete($id){
