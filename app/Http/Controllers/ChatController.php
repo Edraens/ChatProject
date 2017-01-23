@@ -7,6 +7,7 @@ use App\Token;
 use Auth;
 use App\User;
 use App\Conversation;
+use App\Message;
 use \Input;
 
 class ChatController extends Controller
@@ -70,6 +71,34 @@ class ChatController extends Controller
 
 
 		return view('conversation', ['conv' => $conv]);
+	}
+
+	public function send($id){
+		if (!Auth::check()) return redirect('/login');
+		$conv = Conversation::where('id', $id)->firstOrFail();
+		if ($conv->userId != Auth::user()->id) return view('errors/404');
+
+		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', Auth::user()->id]])->first();
+
+		Message::create([
+				'fromUser' => Auth::user()->id,
+				'belongsTo' => Auth::user()->id,
+				'toUser' => $conv->destUser->id,
+				'content' => Input::get('msg'),
+				'conversationId' => $conv->id,
+				'unread' => false;
+				]);
+
+		Message::create([
+				'fromUser' => Auth::user()->id,
+				'belongsTo' => $conv->destUser->id,
+				'toUser' => $conv->destUser->id,
+				'content' => Input::get('msg'),
+				'conversationId' => $correspConv->id,
+				'unread' => true;
+				]);
+
+		return redirect('/conversation/'.$conv->id);
 	}
 
 	public function delete($id){

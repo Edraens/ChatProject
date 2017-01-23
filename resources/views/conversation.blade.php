@@ -47,4 +47,17 @@
 		@endforeach
 	</table>
 </div>
+
+<form action="/conversation/{{ $conv->id }}" method="post" accept-charset="utf-8">
+	{{ csrf_field() }}
+	<div class="row">
+		<div class="form-group col-xs-8" id="msg">
+			<input type="text" class="form-control" name="msg" id="msg" placeholder="Message">
+		</div>
+		<div class="form-group col-xs-4">
+			<button type="submit" id="submit" class="btn btn-primary">Envoi</button>
+		</div>
+	</div>
+</div>
+</form>
 @endsection

@@ -24,6 +24,7 @@ Route::get('/contacts/{id}/delete', 'ContactsController@delete')->where('id', '[
 Route::get('/open/{email}', 'ChatController@openConversation');
 
 Route::get('/conversation/{id}', 'ChatController@show')->where('id', '[0-9]+');
+Route::post('/conversation/{id}', 'ChatController@send')->where('id', '[0-9]+');
 Route::get('/conversation/{id}/delete', 'ChatController@delete')->where('id', '[0-9]+');
 
 Route::get('/account', 'UserController@index');
