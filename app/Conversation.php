@@ -10,6 +10,6 @@ class Conversation extends Model
 
      public function destUser()
     {
-        return $this->hasOne('App\User', 'destId', 'id');
+        return $this->hasOne('App\User', 'id', 'destId');
     }
 }
