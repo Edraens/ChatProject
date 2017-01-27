@@ -47,7 +47,7 @@
 			</div>
 		</form>
 
-		<table class="table table-striped table-hover" style="overflow: auto; height:10px">
+		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
 					<th class="col-xs-2">Horodatage</th>
