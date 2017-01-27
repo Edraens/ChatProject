@@ -22,6 +22,7 @@ class ChatController extends Controller
 		$user = User::where('id', Auth::user()->id)->first();
 
 		$conversations = Conversation::where('userId', Auth::user()->id)->get();
+		$lastMessage = "";
 		foreach ($conversations as $conversation) {
 			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
 			if (empty($lastMessage[$conversation->id])) $lastMessage[$conversation->id] = "";
@@ -72,7 +73,7 @@ class ChatController extends Controller
 		if (!Auth::check()) return redirect('/login');
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
-		$messages = Message::where('conversationId', $conv->id)->get();
+		$messages = Message::where('conversationId', $conv->id)->orderBy('created_at', 'DESC')->paginate(10);
 		// dd($conv->messages);
 		return view('conversation', ['conv' => $conv, 'messages' => $messages]);
 	}
@@ -86,6 +87,15 @@ class ChatController extends Controller
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
 
 		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', Auth::user()->id]])->first();
+		if (is_null($correspConv)) {
+			Conversation::create([
+				'userId' => $conv->destUser->id,
+				'destId' => Auth::user()->id,
+				'hasUnread' => true,
+				'lastActivity' => time(),
+				]);
+			$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', Auth::user()->id]])->first();
+		}
 
 		Message::create([
 			'fromUser' => Auth::user()->id,

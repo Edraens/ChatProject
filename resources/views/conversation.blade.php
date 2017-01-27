@@ -23,14 +23,31 @@
 		<div class="col-sm-5">
 			<h2><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i></h2>
 		</div>
+		<div class="col-xs-7">
+			<div class="pull-right">
+				{{ $messages->links() }}
+			</div>
+		</div>
 	</div>
 {{-- 		<div class="pull-right col-md-4 hidden-sm hidden-xs">
 			<h4 class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></h4>
 			<i class="pull-right">Token : <a href="/token/renew">{{ $user->token->token }}</a></i>		</div>
 		</div> --}}
+		<form class="from-inline" action="/conversation/{{ $conv->id }}" method="post" accept-charset="utf-8">
+			{{ csrf_field() }}
+			<div class="row">
+				<div class="form-group">
+					<div class="col-sm-11 col-xs-10">
+						<input type="text" class="form-control" name="msg" id="msg" placeholder="Message" autocomplete="off" autofocus>
+					</div>
+					<div class="col-sm-1 col-xs-1">
+						<button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-send"></i></button>
+					</div>
+				</div>
+			</div>
+		</form>
 
-
-		<table class="table table-striped table-hover">
+		<table class="table table-striped table-hover" style="overflow: auto; height:10px">
 			<thead>
 				<tr>
 					<th class="col-xs-2">Horodatage</th>
@@ -49,22 +66,4 @@
 			@endforeach
 		</table>
 
-		<form class="from-inline" action="/conversation/{{ $conv->id }}" method="post" accept-charset="utf-8">
-			{{ csrf_field() }}
-			<div class="row">
-				{{-- <div class="form-group" id="msg"> --}}
-				<div class="col-xs-11">
-					<input type="text" class="form-control" name="msg" id="msg" placeholder="Message">
-				</div>
-				<div class="col-xs-1">
-					<button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-send"></i></button>
-				</div>
-				{{-- </div> --}}
-{{-- 			<div class="form-group col-xs-1">
-				
-</div> --}}
-</div>
-</div>
-</div>
-</form>
-@endsection
+		@endsection
