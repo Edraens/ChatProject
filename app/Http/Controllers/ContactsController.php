@@ -62,10 +62,17 @@ class ContactsController extends Controller
 		}
 		$user = $token->user;
 
-		$this->validate($request, [
+		$validator = Validator::make($request->all(), [
 			'name' => 'max:40|required',
 			'email' => 'max:40|required|email',
 			]);
+		
+		if ($validator->fails()) {
+			return response()->json([
+				'done' => 'false',
+				]);
+
+		}
 
 		$userId = $user->id;
 		// dd(Input::get('name'));
