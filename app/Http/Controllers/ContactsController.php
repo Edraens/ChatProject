@@ -68,7 +68,7 @@ class ContactsController extends Controller
 			]);
 
 		$userId = $user->id;
-		dd(Input::get('name'));
+		// dd(Input::get('name'));
 		$name = Input::get('name');
 		$email = Input::get('email');	
 
