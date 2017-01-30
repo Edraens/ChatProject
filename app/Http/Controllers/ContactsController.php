@@ -55,6 +55,32 @@ class ContactsController extends Controller
 		return($contacts);
 	}
 
+	public function APIadd($token, Request $request){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+
+		$this->validate($request, [
+			'name' => 'max:40|required',
+			'email' => 'max:40|required|email',
+			]);
+
+		$userId = $user->id;
+		$name = Input::get('name');
+		$email = Input::get('email');	
+
+		Contact::create([
+			'userId' => $userId,
+			'name' => $name,
+			'email' => $email,
+			]);
+		return response()->json([
+			'done' => 'true',
+			]);
+	}
+
 	public function APIdelete($token, $id){
 		$token = Token::where('token', $token)->first();
 		if (is_null($token)) {
@@ -66,7 +92,7 @@ class ContactsController extends Controller
 		if ($contact->userId != $user->id) return response('User not found', 404);
 		$contact->forceDelete();
 		return response()->json([
-			'deleted' => 'true',
+			'done' => 'true',
 			]);
 	}
 
