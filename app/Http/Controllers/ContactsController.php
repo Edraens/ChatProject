@@ -10,7 +10,7 @@ use \Input;
 
 class ContactsController extends Controller
 {
-	public function list(){
+	public function showall(){
 		if (!Auth::check()) return redirect('/login');
 		$contacts = Contact::where('userId', Auth::user()->id)->get();
 		// return response()->json($contacts);
@@ -43,7 +43,7 @@ class ContactsController extends Controller
 		return redirect('/contacts');
 	}
 
-	public function APIlist(){
+	public function APIshowall(){
 		$token = Token::where('token', $token)->first();
 		if (is_null($token)) {
 			return response('User not found', 404);
