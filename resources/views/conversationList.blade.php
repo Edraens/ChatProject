@@ -30,7 +30,7 @@
 		<div class="col-md-3"><h2>Conversations</h2></div>
 		<div class="pull-right col-md-4 hidden-sm hidden-xs">
 			<span class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></span><br />
-			<i class="pull-right">Token : <a href="/token/renew">{{ $user->token->token }}</a></i>		
+			<i class="pull-right">Token : {{ $user->token->token }} <a href="/token/renew">(Renouveller)</a></i>		
 		</div>
 	</div>
 	<br />
