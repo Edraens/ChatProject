@@ -55,4 +55,18 @@ class ContactsController extends Controller
 		return($contacts);
 	}
 
+	public function APIdelete($token, $id){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+
+		$contact = Contact::where('id', $id)->get();
+		if ($contact->userId != $user->id) return response('User not found', 404);
+		return response()->json([
+			'deleted' => 'true',
+			]);
+	}
+
 }
