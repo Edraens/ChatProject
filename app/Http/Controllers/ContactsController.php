@@ -61,8 +61,8 @@ class ContactsController extends Controller
 			return response('User not found', 404);
 		}
 		$user = $token->user;
+		$contact = Contact::where('id', $id)->firstOrFail();
 
-		$contact = Contact::where('id', $id)->get();
 		if ($contact->userId != $user->id) return response('User not found', 404);
 		return response()->json([
 			'deleted' => 'true',
