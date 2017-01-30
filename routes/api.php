@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:api');
+
+Route::get('/api/{token}/auth', 'UserController@APIAuth')->where('token', '[a-zA-Z0-9]+');
