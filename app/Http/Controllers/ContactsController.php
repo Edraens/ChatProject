@@ -64,6 +64,7 @@ class ContactsController extends Controller
 		$contact = Contact::where('id', $id)->firstOrFail();
 
 		if ($contact->userId != $user->id) return response('User not found', 404);
+		$contact->forceDelete();
 		return response()->json([
 			'deleted' => 'true',
 			]);
