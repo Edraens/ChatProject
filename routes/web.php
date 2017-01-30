@@ -34,9 +34,5 @@ Route::post('/account', 'UserController@edit');
 Route::get('/token/get', 'TokenController@get');
 Route::get('/token/renew', 'TokenController@renew');
 
-// Route::post('/', 'PasteController@submit');
-// Route::get('/{link}', 'PasteController@view')->where('link', '[a-zA-Z0-9]+');
-// Route::post('/{link}', 'PasteController@password')->where('link', '[a-zA-Z0-9]+');
-// Route::get('users/dashboard', 'UserController@dashboard');
-// Route::get('users/account', 'UserController@account');
-// Route::get('/users/delete/{link}', 'UserController@delete')->where('link', '[a-zA-Z0-9]+');
+// API
+Route::get('/api/{token}/auth', 'UserController@APIAuth')->where('token', '[a-zA-Z0-9]+');
