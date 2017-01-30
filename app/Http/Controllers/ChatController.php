@@ -74,7 +74,14 @@ class ChatController extends Controller
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
 		$messages = Message::where('conversationId', $conv->id)->orderBy('created_at', 'DESC')->paginate(10);
-		// dd($conv->messages);
+		$unreadMessages = Message::where([['conversationId', '=', $conv->id], ['unread', '=', true]])->get();
+		foreach ($unreadMessages as $unreadMessage) {
+			$unreadMessage->unread = false;
+			$unreadMessage->save();
+		}
+		$conv->hasUnread = false;
+		$conv->save();
+
 		return view('conversation', ['conv' => $conv, 'messages' => $messages]);
 	}
 
@@ -95,6 +102,10 @@ class ChatController extends Controller
 				'lastActivity' => time(),
 				]);
 			$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', Auth::user()->id]])->first();
+		}
+		else {
+			$correspConv->hasUnread = true;
+			$correspConv->save();
 		}
 
 		Message::create([
