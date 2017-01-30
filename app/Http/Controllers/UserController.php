@@ -27,14 +27,15 @@ class UserController extends Controller
 		$user->save();
 		return redirect('/account');
 	}
+	
 
 	public function APIAuth($token){
 		$token = Token::where('token', $token)->first();
 		if (is_null($token)) {
 			return response('User not found', 404);
 		}
-		$userId = $token->user->id;
-
-		return ($token->user);
+		$user = $token->user;
+		return ($user);
 	}
+
 }

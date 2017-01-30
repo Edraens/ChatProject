@@ -10,7 +10,7 @@ use \Input;
 
 class ContactsController extends Controller
 {
-	public function showall(){
+	public function list(){
 		if (!Auth::check()) return redirect('/login');
 		$contacts = Contact::where('userId', Auth::user()->id)->get();
 		// return response()->json($contacts);
@@ -35,19 +35,23 @@ class ContactsController extends Controller
 		return redirect('/contacts');
 	}
 
-	public function openConversation($email){
-		if (!Auth::check()) return redirect('/login');
-		$user = User::where('email', $email)->firstOrFail();
-		if ($user->id == Auth::user()->id) return view('errors/404');
-		return ($user->email);
-	}
-
 	public function delete($id){
 		if (!Auth::check()) return redirect('/login');
 		$contact = Contact::where('id', $id)->firstOrFail();
 		if ($contact->userId != Auth::user()->id) return redirect('/login');
 		$contact->forceDelete();
 		return redirect('/contacts');
+	}
+
+	public function APIlist(){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+		$contacts = Contact::where('userId', $user->id)->get();
+		// return response()->json($contacts);
+		return($contacts);
 	}
 
 }

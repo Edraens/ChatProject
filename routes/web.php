@@ -17,7 +17,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', 'ChatController@index');
 Route::post('/', 'ChatController@openConversationPOST');
-Route::get('/contacts', 'ContactsController@showall');
+Route::get('/contacts', 'ContactsController@list');
 Route::post('/contacts', 'ContactsController@add');
 
 Route::get('/contacts/{id}/delete', 'ContactsController@delete')->where('id', '[0-9]+');
@@ -36,3 +36,4 @@ Route::get('/token/renew', 'TokenController@renew');
 
 // API
 Route::get('/api/{token}/auth', 'UserController@APIAuth')->where('token', '[a-zA-Z0-9]+');
+Route::get('/api/{token}/contacts/list', 'ContactsController@APIlist')->where('token', '[a-zA-Z0-9]+');
