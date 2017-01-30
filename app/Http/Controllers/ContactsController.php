@@ -29,6 +29,11 @@ class ContactsController extends Controller
 		$name = Input::get('name');
 		$email = Input::get('email');	
 
+		$checkExists = Contact::where('email', $email)->first();
+		if (!is_null($checkExists)) {
+			return redirect('/contacts');
+		}
+
 		Contact::create([
 			'userId' => $userId,
 			'name' => $name,
@@ -80,6 +85,13 @@ class ContactsController extends Controller
 		$name = Input::get('name');
 		$email = Input::get('email');	
 
+		$checkExists = Contact::where('email', $email)->first();
+		if (!is_null($checkExists)) {
+			return response()->json([
+				'done' => 'false',
+				]);
+		}
+
 		Contact::create([
 			'userId' => $userId,
 			'name' => $name,
@@ -99,8 +111,8 @@ class ContactsController extends Controller
 		$contact = Contact::where('id', $id)->first();
 		if (is_null($contact)){
 			return response()->json([
-			'done' => 'false',
-			]);
+				'done' => 'false',
+				]);
 		}
 
 		if ($contact->userId != $user->id) return response('User not found', 404);
