@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use App\Token;
 use \Input;
+use Validator;
 
 class ContactsController extends Controller
 {
