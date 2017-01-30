@@ -44,7 +44,7 @@ class ContactsController extends Controller
 		return redirect('/contacts');
 	}
 
-	public function APIshowall(){
+	public function APIshowall($token){
 		$token = Token::where('token', $token)->first();
 		if (is_null($token)) {
 			return response('User not found', 404);
