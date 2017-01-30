@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Contact;
 use Auth;
 use App\User;
+use App\Token;
 use \Input;
 
 class ContactsController extends Controller
