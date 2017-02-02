@@ -9,6 +9,7 @@ use App\User;
 use App\Conversation;
 use App\Message;
 use \Input;
+use Validator;
 
 class ChatController extends Controller
 {
@@ -82,6 +83,8 @@ class ChatController extends Controller
 		$conv->hasUnread = false;
 		$conv->save();
 
+		
+
 		return view('conversation', ['conv' => $conv, 'messages' => $messages]);
 	}
 
@@ -146,5 +149,80 @@ class ChatController extends Controller
 		if ($message->belongsTo != Auth::user()->id) return redirect('/login');
 		$message->forceDelete();
 		return redirect('/conversation/'.$convId);
+	}
+
+	public function APIlist($token){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+		$user = User::where('id', Auth::user()->id)->first();
+
+		$conversations = Conversation::where('userId', $user->id)->get();
+		$lastMessage = "";
+		foreach ($conversations as $conversation) {
+			$getConvInfo = $conversation->destUser;
+
+			$foundMsg = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
+			if (is_null($foundMsg)) {
+				$lastMessage[$conversation->id] = "";
+			}
+			else {
+				$lastMessage[$conversation->id]["date"] = $foundMsg->created_at->format('d-m-Y H:i:s');
+
+				if (strlen($foundMsg->content) <= 60) { 
+					$lastMessage[$conversation->id]["message"] = $foundMsg->content;
+				}
+				else { 
+					$lastMessage[$conversation->id]["message"] = mb_substr($foundMsg->content,0,60,'UTF-8')+"...";
+				}
+				if ($foundMsg->fromUser == $user->id) { 
+					$lastMessage[$conversation->id]["sendByMe"] = true;
+				}
+				else {
+					$lastMessage[$conversation->id]["sendByMe"] = false;
+				}
+			}
+		}
+
+		return response()->json([
+			'done' => 'true',
+			'conversations' => $conversations,
+			'lastMessage' => $lastMessage,
+			]);
+	}
+
+	public function APIopenConversation($token, $email){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return response()->json([
+				'done' => 'false',
+				]);
+		}
+		$findDest = User::where('email', $email)->first();
+		if (is_null($findDest)) return response()->json(['done' => 'false']);
+		if ($findDest->id == $user->id) return response()->json(['done' => 'false']);
+
+		$findConversation = Conversation::where([['userId', '=', $user->id], ['destId', '=', $findDest->id]])->first();
+		if (is_null($findConversation)) {
+			Conversation::create([
+				'userId' => $user->id,
+				'destId' => $findDest->id,
+				'hasUnread' => false,
+				'lastActivity' => time(),
+				]);
+			$findConversation = Conversation::where([['userId', '=', $user->id], ['destId', '=', $findDest->id]])->first();
+		}
+
+		return response()->json([
+			'done' => 'true',
+			'convId' => $findConversation->id,
+			]);
 	}
 }
