@@ -15,18 +15,13 @@ class ChatController extends Controller
 {
 	public function index(){
 		if (!Auth::check()) return view('index');
-
-		// $token = Token::where('userId', Auth::user()->id)->first();
-		// if (is_null($token)) {
-		// 	return redirect('/token/renew');
-		// }
 		$user = User::where('id', Auth::user()->id)->first();
 
 		$conversations = Conversation::where('userId', Auth::user()->id)->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
 			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
-			if (empty($lastMessage[$conversation->id])) $lastMessage[$conversation->id] = "";
+			if (empty($lastMessage[$conversation->id])) $lastMessage[$removeconversation->id] = "";
 		}
 		return view('conversationList', ['conversations' => $conversations, 'user' => $user, 'lastMessage' => $lastMessage]); // 'token' => $token->token, 
 	}
