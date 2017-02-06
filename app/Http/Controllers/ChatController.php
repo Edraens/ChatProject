@@ -20,7 +20,7 @@ class ChatController extends Controller
 		$conversations = Conversation::where('userId', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
-			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('lastActivity', 'desc')->first();
+			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
 			if (empty($lastMessage[$conversation->id])) $lastMessage[$conversation->id] = "";
 		}
 		return view('conversationList', ['conversations' => $conversations, 'user' => $user, 'lastMessage' => $lastMessage]); // 'token' => $token->token, 
