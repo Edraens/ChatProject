@@ -38,6 +38,7 @@ Route::get('/token/renew', 'TokenController@renew');
 Route::get('/api/{token}/auth', 'UserController@APIAuth')->where('token', '[a-zA-Z0-9]+');
 
 Route::get('/api/{token}/conversation/list', 'ChatController@APIlist')->where('token', '[a-zA-Z0-9]+');
+Route::get('/api/{token}/conversation/delete/{id}', 'ChatController@APIdeleteConversation')->where(['token' => '[a-zA-Z0-9]+', 'id' => '[0-9]+']);
 Route::get('/api/{token}/conversation/open/{email}', 'ChatController@APIopenConversation')->where('token', '[a-zA-Z0-9]+');
 
 Route::get('/api/{token}/contacts/list', 'ContactsController@APIshowall')->where('token', '[a-zA-Z0-9]+');

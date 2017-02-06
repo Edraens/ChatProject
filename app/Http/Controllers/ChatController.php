@@ -220,4 +220,25 @@ class ChatController extends Controller
 			'convId' => $findConversation->id,
 			]);
 	}
+
+	public function APIdeleteConversation($id){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+
+		$conversation = Conversation::where('id', $id)->first();
+		if (is_null($conversation)) {
+			return response()->json([
+			'done' => 'false',
+			]);
+		}
+
+		if ($conversation->userId != $user->id) return response()->json(['done' => 'false']);
+		$messages = Message::where('conversationId', $id);
+		$messages->forceDelete();
+		$conversation->forceDelete();
+		return response()->json(['done' => 'true']);
+	}
 }
