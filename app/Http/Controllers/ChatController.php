@@ -17,10 +17,10 @@ class ChatController extends Controller
 		if (!Auth::check()) return view('index');
 		$user = User::where('id', Auth::user()->id)->first();
 
-		$conversations = Conversation::where('userId', Auth::user()->id)->get();
+		$conversations = Conversation::where('userId', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
-			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
+			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('lastActivity', 'desc')->first();
 			if (empty($lastMessage[$conversation->id])) $lastMessage[$conversation->id] = "";
 		}
 		return view('conversationList', ['conversations' => $conversations, 'user' => $user, 'lastMessage' => $lastMessage]); // 'token' => $token->token, 
@@ -91,6 +91,9 @@ class ChatController extends Controller
 		$conv = Conversation::where('id', $id)->firstOrFail();
 		if ($conv->userId != Auth::user()->id) return view('errors/404');
 
+		$conv->lastActivity = time();
+		$conv->save();
+
 		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', Auth::user()->id]])->first();
 		if (is_null($correspConv)) {
 			Conversation::create([
@@ -103,6 +106,7 @@ class ChatController extends Controller
 		}
 		else {
 			$correspConv->hasUnread = true;
+			$correspConv->lastActivity = time();
 			$correspConv->save();
 		}
 
@@ -231,8 +235,8 @@ class ChatController extends Controller
 		$conversation = Conversation::where('id', $id)->first();
 		if (is_null($conversation)) {
 			return response()->json([
-			'done' => 'false',
-			]);
+				'done' => 'false',
+				]);
 		}
 
 		if ($conversation->userId != $user->id) return response()->json(['done' => 'false']);
