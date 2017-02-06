@@ -162,8 +162,8 @@ class ChatController extends Controller
 		$conversations = Conversation::where('userId', $user->id)->orderBy('lastActivity', 'desc')->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
-			$getConvInfo = $conversation->destUser;
-
+			$getConvInfo = $conversation->destUser
+;
 			$foundMsg = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
 			if (is_null($foundMsg)) {
 				$lastMessage[$conversation->id] = "";
@@ -175,7 +175,8 @@ class ChatController extends Controller
 					$lastMessage[$conversation->id]["message"] = $foundMsg->content;
 				}
 				else { 
-					$lastMessage[$conversation->id]["message"] = mb_substr($foundMsg->content,0,60,'UTF-8')+"...";
+					$short = mb_substr($foundMsg->content,0,60,'UTF-8')."...";
+					$lastMessage[$conversation->id]["message"] = $short;
 				}
 				if ($foundMsg->fromUser == $user->id) { 
 					$lastMessage[$conversation->id]["sendByMe"] = true;
