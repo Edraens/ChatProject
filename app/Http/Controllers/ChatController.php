@@ -158,7 +158,6 @@ class ChatController extends Controller
 			return response('User not found', 404);
 		}
 		$user = $token->user;
-		$user = User::where('id', Auth::user()->id)->first();
 
 		$conversations = Conversation::where('userId', $user->id)->orderBy('lastActivity', 'desc')->get();
 		$lastMessage = "";
