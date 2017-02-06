@@ -16,6 +16,8 @@ class ChatController extends Controller
 	public function index(){
 		if (!Auth::check()) return view('index');
 		$user = User::where('id', Auth::user()->id)->first();
+		$token = Token::where('userId', Auth::user()->id)->first();
+		if (is_null($token)) return redirect ('/token/renew');
 
 		$conversations = Conversation::where('userId', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 		$lastMessage = "";
