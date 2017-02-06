@@ -36,13 +36,15 @@
 	<br />
 
 	<table class="table table-striped table-hover">
-<thead>
-	<tr><i class="fa fa-exclamation-circle"></i></tr>
-	<tr>Utilisateur</tr>
-	<tr>Date</tr>
-	<tr>Dernier message</tr>
-	<tr class="pull-right"><i class="fa fa-trash-o"></tr>
-</thead>
+		<thead>
+			<tr>
+				<td><i class="fa fa-exclamation-circle"></i></td>
+				<td>Utilisateur</td>
+				<td>Date</td>
+				<td>Dernier message</td>
+				<td class="pull-right"><i class="fa fa-trash-o"></i></td>
+			</tr>
+		</thead>
 		<tbody>
 			@foreach ($conversations as $conversation)
 			<tr>
