@@ -38,11 +38,11 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<td><i class="fa fa-exclamation-circle"></i></td>
-				<td>Utilisateur</td>
-				<td>Date</td>
-				<td>Dernier message</td>
-				<td class="pull-right"><i class="fa fa-trash-o"></i></td>
+				<th><i class="fa fa-exclamation-circle"></i></th>
+				<th>Utilisateur</th>
+				<th>Date</th>
+				<th>Dernier message</th>
+				<th class="pull-right"><i class="fa fa-trash-o"></i></th>
 			</tr>
 		</thead>
 		<tbody>
