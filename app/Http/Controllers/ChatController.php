@@ -160,7 +160,7 @@ class ChatController extends Controller
 		$user = $token->user;
 		$user = User::where('id', Auth::user()->id)->first();
 
-		$conversations = Conversation::where('userId', $user->id)->get();
+		$conversations = Conversation::where('userId', $user->id)->orderBy('lastActivity', 'desc')->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
 			$getConvInfo = $conversation->destUser;
