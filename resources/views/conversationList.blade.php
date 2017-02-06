@@ -51,10 +51,10 @@
 				<td> @if ($conversation->hasUnread)<i class="fa fa-exclamation-circle fa-2x"></i> @endif </td>
 				<td class="col-xs-2 table-warning"><a href="/conversation/{{ $conversation->id }}" data-toggle="tooltip" title="{{ $conversation->destUser->email }}" data-placement="right">{{ $conversation->destUser->name }}</a></td>
 				@if ($lastMessage[$conversation->id] != "")
-				<td class="col-xs-2"><span class="hidden-xs"><small>{{ $lastMessage[$conversation->id]->created_at->format('d/m/Y') }}</small></span> <b>{{ $lastMessage[$conversation->id]->created_at->format('H:i:s') }}</b>  </td>
+				<td class="col-xs-2"><span class="hidden-xs"><a href="/conversation/{{ $conversation->id }}"><small>{{ $lastMessage[$conversation->id]->created_at->format('d/m/Y') }}</small></a></span> <b>{{ $lastMessage[$conversation->id]->created_at->format('H:i:s') }}</b>  </td>
 				<td class="col-xs-8">@if ($lastMessage[$conversation->id]->sender->id == Auth::user()->id) <i> @else <b> @endif @if (strlen($lastMessage[$conversation->id]->content) <= 60) {{ $lastMessage[$conversation->id]->content }} @else {{ mb_substr($lastMessage[$conversation->id]->content,0,60,'UTF-8') }}... @endif  @if ($lastMessage[$conversation->id]->sender->id == Auth::user()->id) </i> @else </b> @endif</td>
 				@else
-				<td><i>Aucun message</i></td>
+				<td><a href="/conversation/{{ $conversation->id }}"><i>Aucun message</i></a></td>
 				<td><i>Aucun message</i></td>
 				@endif
 				<td class="pull-right"><a class="btn btn-danger btn-sm pull-right" href="/conversation/{{ $conversation->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
