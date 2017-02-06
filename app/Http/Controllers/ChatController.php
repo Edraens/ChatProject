@@ -171,11 +171,11 @@ class ChatController extends Controller
 			else {
 				$lastMessage[$conversation->id]["date"] = $foundMsg->created_at->format('d-m-Y H:i:s');
 
-				if (strlen($foundMsg->content) <= 60) { 
+				if (strlen($foundMsg->content) <= 50) { 
 					$lastMessage[$conversation->id]["message"] = $foundMsg->content;
 				}
 				else { 
-					$short = mb_substr($foundMsg->content,0,60,'UTF-8')."...";
+					$short = mb_substr($foundMsg->content,0,50,'UTF-8')."...";
 					$lastMessage[$conversation->id]["message"] = $short;
 				}
 				if ($foundMsg->fromUser == $user->id) { 
