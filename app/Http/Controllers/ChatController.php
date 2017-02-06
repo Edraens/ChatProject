@@ -19,7 +19,7 @@ class ChatController extends Controller
 		$token = Token::where('userId', Auth::user()->id)->first();
 		if (is_null($token)) return redirect ('/token/renew');
 
-		$conversations = Conversation::where('userId', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+		$conversations = Conversation::where('userId', Auth::user()->id)->orderBy('lastActivity', 'desc')->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
 			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
