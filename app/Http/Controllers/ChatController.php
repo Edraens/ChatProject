@@ -251,8 +251,8 @@ class ChatController extends Controller
 		$conv->hasUnread = false;
 		$conv->save();
 
-		$convInfoUser = $conv->destUser->name,
-		$convInfomail = $conv->destUser->email,
+		$convInfoUser = $conv->destUser->name;
+		$convInfomail = $conv->destUser->email;
 
 		return response()->json([
 			'done' => 'true',
