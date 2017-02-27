@@ -251,14 +251,79 @@ class ChatController extends Controller
 		$conv->hasUnread = false;
 		$conv->save();
 
+		$convInfoUser = $conv->destUser->name,
+		$convInfomail = $conv->destUser->email,
+
 		return response()->json([
 			'done' => 'true',
-			'destName' => $conv->destUser->name,
 			'conv' => $conv,
 			'messages' => $messages,
 			]);
+	}
 
-		// return view('conversation', ['conv' => $conv, 'messages' => $messages]);
+	public function APIsend($token, $id, Request $request){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+		$validator = Validator::make($request->all(), [
+			'msg' => 'required',
+			]);
+		
+		if ($validator->fails()) {
+			return response()->json([
+				'done' => 'false',
+				]);
+
+		}
+
+		$conv = Conversation::where('id', $id)->first();
+		if (is_null($conv)) {
+			return response()->json([
+				'done' => 'false',
+				]);
+		} 
+		if ($conv->userId != $user->id) return response()->json(['done' => 'false']);
+
+		$conv->lastActivity = time();
+		$conv->save();
+
+		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', $user()->id]])->first();
+		if (is_null($correspConv)) {
+			Conversation::create([
+				'userId' => $conv->destUser->id,
+				'destId' => $user()->id,
+				'hasUnread' => true,
+				'lastActivity' => time(),
+				]);
+			$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', $user()->id]])->first();
+		}
+		else {
+			$correspConv->hasUnread = true;
+			$correspConv->lastActivity = time();
+			$correspConv->save();
+		}
+
+		Message::create([
+			'fromUser' => $user()->id,
+			'belongsTo' => $user()->id,
+			'toUser' => $conv->destUser->id,
+			'content' => Input::get('msg'),
+			'conversationId' => $conv->id,
+			'unread' => false,
+			]);
+
+		Message::create([
+			'fromUser' => $user()->id,
+			'belongsTo' => $conv->destUser->id,
+			'toUser' => $conv->destUser->id,
+			'content' => Input::get('msg'),
+			'conversationId' => $correspConv->id,
+			'unread' => true,
+			]);
+
+		return response()->json(['done' => 'true']);
 	}
 
 	public function APIdeleteConversation($token, $id){
@@ -281,4 +346,25 @@ class ChatController extends Controller
 		$conv->forceDelete();
 		return response()->json(['done' => 'true']);
 	}
+
+	public function APIdeleteMessage($token, $id){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+
+		$message = Message::where('id', $id)->first();
+		if (is_null($message)) {
+			return response()->json([
+				'done' => 'false',
+				]);
+		}
+
+		$convId = $message->conversation->id;
+		if ($message->belongsTo != $user()->id) return response()->json(['done' => 'false']);
+		$message->forceDelete();
+		return response()->json(['done' => 'true']);
+	}
+
 }
