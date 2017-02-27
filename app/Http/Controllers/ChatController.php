@@ -289,15 +289,15 @@ class ChatController extends Controller
 		$conv->lastActivity = time();
 		$conv->save();
 
-		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', $user()->id]])->first();
+		$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', $user->id]])->first();
 		if (is_null($correspConv)) {
 			Conversation::create([
 				'userId' => $conv->destUser->id,
-				'destId' => $user()->id,
+				'destId' => $user->id,
 				'hasUnread' => true,
 				'lastActivity' => time(),
 				]);
-			$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', $user()->id]])->first();
+			$correspConv = Conversation::where([['userId', '=', $conv->destUser->id], ['destId', '=', $user->id]])->first();
 		}
 		else {
 			$correspConv->hasUnread = true;
@@ -306,8 +306,8 @@ class ChatController extends Controller
 		}
 
 		Message::create([
-			'fromUser' => $user()->id,
-			'belongsTo' => $user()->id,
+			'fromUser' => $user->id,
+			'belongsTo' => $user->id,
 			'toUser' => $conv->destUser->id,
 			'content' => Input::get('msg'),
 			'conversationId' => $conv->id,
@@ -315,7 +315,7 @@ class ChatController extends Controller
 			]);
 
 		Message::create([
-			'fromUser' => $user()->id,
+			'fromUser' => $user->id,
 			'belongsTo' => $conv->destUser->id,
 			'toUser' => $conv->destUser->id,
 			'content' => Input::get('msg'),
@@ -362,7 +362,7 @@ class ChatController extends Controller
 		}
 
 		$convId = $message->conversation->id;
-		if ($message->belongsTo != $user()->id) return response()->json(['done' => 'false']);
+		if ($message->belongsTo != $user->id) return response()->json(['done' => 'false']);
 		$message->forceDelete();
 		return response()->json(['done' => 'true']);
 	}
