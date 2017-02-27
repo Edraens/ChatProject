@@ -227,7 +227,7 @@ class ChatController extends Controller
 			]);
 	}
 
-	public function APIshow($id){
+	public function APIshow($token, $id){
 		$token = Token::where('token', $token)->first();
 		if (is_null($token)) {
 			return response('User not found', 404);
