@@ -239,10 +239,10 @@ class ChatController extends Controller
 			return response()->json([
 				'done' => 'false',
 				]);
-		}
+		} 
 		if ($conv->userId != $user->id) return response()->json(['done' => 'false']);
 
-		$messages = Message::where('conversationId', $conv->id)->orderBy('created_at', 'DESC')->paginate(10);
+		$messages = Message::where('conversationId', $conv->id)->orderBy('created_at', 'DESC')->limit(50);
 		$unreadMessages = Message::where([['conversationId', '=', $conv->id], ['unread', '=', true]])->get();
 		foreach ($unreadMessages as $unreadMessage) {
 			$unreadMessage->unread = false;
