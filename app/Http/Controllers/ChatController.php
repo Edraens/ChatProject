@@ -253,6 +253,7 @@ class ChatController extends Controller
 
 		return response()->json([
 			'done' => 'true',
+			'destName' => $conv->destUser->name,
 			'conv' => $conv,
 			'messages' => $messages,
 			]);
