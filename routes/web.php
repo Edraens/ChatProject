@@ -44,3 +44,5 @@ Route::get('/api/{token}/conversation/open/{email}', 'ChatController@APIopenConv
 Route::get('/api/{token}/contacts/list', 'ContactsController@APIshowall')->where('token', '[a-zA-Z0-9]+');
 Route::post('/api/{token}/contacts/add', 'ContactsController@APIadd')->where('token', '[a-zA-Z0-9]+');
 Route::get('/api/{token}/contacts/delete/{id}', 'ContactsController@APIdelete')->where(['token' => '[a-zA-Z0-9]+', 'id' => '[0-9]+']);
+
+Route::get('/api/{token}/conversation/show/{id}', 'ChatController@APIshow')->where(['token' => '[a-zA-Z0-9]+', 'id' => '[0-9]+']);

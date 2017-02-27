@@ -163,7 +163,7 @@ class ChatController extends Controller
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
 			$getConvInfo = $conversation->destUser
-;
+			;
 			$foundMsg = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
 			if (is_null($foundMsg)) {
 				$lastMessage[$conversation->id] = "";
@@ -227,6 +227,39 @@ class ChatController extends Controller
 			]);
 	}
 
+	public function APIshow($id){
+		$token = Token::where('token', $token)->first();
+		if (is_null($token)) {
+			return response('User not found', 404);
+		}
+		$user = $token->user;
+
+		$conv = Conversation::where('id', $id)->first();
+		if (is_null($conv)) {
+			return response()->json([
+				'done' => 'false',
+				]);
+		}
+		if ($conv->userId != $user->id) return response()->json(['done' => 'false']);
+
+		$messages = Message::where('conversationId', $conv->id)->orderBy('created_at', 'DESC')->paginate(10);
+		$unreadMessages = Message::where([['conversationId', '=', $conv->id], ['unread', '=', true]])->get();
+		foreach ($unreadMessages as $unreadMessage) {
+			$unreadMessage->unread = false;
+			$unreadMessage->save();
+		}
+		$conv->hasUnread = false;
+		$conv->save();
+
+		return response()->json([
+			'done' => 'true',
+			'conv' => $conv,
+			'messages' => $messages,
+			]);
+
+		// return view('conversation', ['conv' => $conv, 'messages' => $messages]);
+	}
+
 	public function APIdeleteConversation($token, $id){
 		$token = Token::where('token', $token)->first();
 		if (is_null($token)) {
@@ -234,17 +267,17 @@ class ChatController extends Controller
 		}
 		$user = $token->user;
 
-		$conversation = Conversation::where('id', $id)->first();
-		if (is_null($conversation)) {
+		$conv = Conversation::where('id', $id)->first();
+		if (is_null($conv)) {
 			return response()->json([
 				'done' => 'false',
 				]);
 		}
 
-		if ($conversation->userId != $user->id) return response()->json(['done' => 'false']);
+		if ($conv->userId != $user->id) return response()->json(['done' => 'false']);
 		$messages = Message::where('conversationId', $id);
 		$messages->forceDelete();
-		$conversation->forceDelete();
+		$conv->forceDelete();
 		return response()->json(['done' => 'true']);
 	}
 }
