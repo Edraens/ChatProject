@@ -27,18 +27,6 @@ function reset() {
 	console.log("Reset");
 }
 
-function windowHasFocus() {
-	has_focus = false;
-	lost_focus_count++;
-	console.log(lost_focus_count + " <~ Lost Focus");
-}
-
-function windowLostFocus() {
-	has_focus = false;
-	lost_focus_count++;
-	console.log(lost_focus_count + " <~ Lost Focus");
-}
-
 setInterval(function () {
 	last_user_action++;
 	refreshCheck();
@@ -47,7 +35,7 @@ setInterval(function () {
 
 function refreshCheck() {
 	var focus = window.onfocus;
-	if ((last_user_action >= refresh_rate && !has_focus && document.readyState == "complete") || lost_focus_count > focus_margin) {
+	if ((last_user_action >= refresh_rate && !has_focus && document.readyState == "complete")) {
 		if (document.getElementById('msg').value === '') {
         window.location.reload(); // If this is called no reset is needed
         reset(); // We want to reset just to make sure the location reload is not called.
@@ -55,8 +43,7 @@ function refreshCheck() {
 }
 
 }
-window.addEventListener("focus", windowHasFocus, false);
-window.addEventListener("blur", windowLostFocus, false);
+
 window.addEventListener("click", reset, false);
 window.addEventListener("mousemove", reset, false);
 window.addEventListener("keypress", reset, false);
