@@ -44,12 +44,11 @@ setInterval(function () {
 	refreshCheck();
 }, 1000);
 
-var a=document.forms["Form"]["msg"].value;
 
 function refreshCheck() {
 	var focus = window.onfocus;
 	if ((last_user_action >= refresh_rate && !has_focus && document.readyState == "complete") || lost_focus_count > focus_margin) {
-		if (a==null || a=="") {
+		if (document.getElementById('msg').value === '') {
         window.location.reload(); // If this is called no reset is needed
         reset(); // We want to reset just to make sure the location reload is not called.
     }
@@ -80,7 +79,7 @@ window.addEventListener("keypress", reset, false);
 			<h4 class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></h4>
 			<i class="pull-right">Token : <a href="/token/renew">{{ $user->token->token }}</a></i>		</div>
 		</div> --}}
-		<form class="from-inline" action="/conversation/{{ $conv->id }}" method="post" accept-charset="utf-8" name="Form">
+		<form class="from-inline" action="/conversation/{{ $conv->id }}" method="post" accept-charset="utf-8">
 			{{ csrf_field() }}
 			<div class="row">
 				<div class="form-group">
