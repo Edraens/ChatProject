@@ -15,14 +15,19 @@
 		$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 	});
 
-	$(document).keyup(function(e) {
-			setTimeout(function() {
-						if(e.which == 13 and $( document.activeElement ).filter('input,textarea').length < 0) {
-							window.location.reload(1);
-						}
-			}, 5000);
-		
-	});
+     var time = new Date().getTime();
+     $(document.body).bind("mousemove keypress", function(e) {
+         time = new Date().getTime();
+     });
+
+     function refresh() {
+         if(new Date().getTime() - time >= 60000) 
+             window.location.reload(true);
+         else 
+             setTimeout(refresh, 10000);
+     }
+
+     setTimeout(refresh, 10000);
 </script>
 @endsection
 
