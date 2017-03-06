@@ -15,7 +15,7 @@
 		$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 	});
 
-var refresh_rate = 10; //<-- In seconds, change to your needs
+var refresh_rate = 15; //<-- In seconds, change to your needs
 var last_user_action = 0;
 var has_focus = false;
 var lost_focus_count = 0;
@@ -47,9 +47,11 @@ setInterval(function () {
 function refreshCheck() {
 	var focus = window.onfocus;
 	if ((last_user_action >= refresh_rate && !has_focus && document.readyState == "complete") || lost_focus_count > focus_margin) {
+		if (document.form.msg.value != "") {
         window.location.reload(); // If this is called no reset is needed
         reset(); // We want to reset just to make sure the location reload is not called.
     }
+}
 
 }
 window.addEventListener("focus", windowHasFocus, false);
