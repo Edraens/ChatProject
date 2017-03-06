@@ -15,7 +15,7 @@
 		$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 	});
 
-var refresh_rate = 15; //<-- In seconds, change to your needs
+var refresh_rate = 5; //<-- In seconds, change to your needs
 var last_user_action = 0;
 var has_focus = false;
 var lost_focus_count = 0;
