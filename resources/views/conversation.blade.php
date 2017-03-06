@@ -14,6 +14,14 @@
 	$(document).ready(function() {
 		$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 	});
+
+	$(document).keyup(function(e) {
+		if(e.which != 13 and $( document.activeElement ).filter('input,textarea').length < 0) {
+			setTimeout(function() {
+				location.reload();
+			}, 30000);
+		}
+	});
 </script>
 @endsection
 
@@ -58,13 +66,13 @@
 			@foreach ($messages as $message)
 			<tr data-toggle="tooltip" title="{{ $message->created_at->format('d/m/Y H:i:s') }}" data-placement="top">
 				<td>@if ($message->unread) <i class="fa fa-exclamation-circle"></i> @endif 
-				@if ($message->sender->id == Auth::user()->id) <i>Moi</i>
-				@else <b> {{ $message->sender->name }} </b>
-				@endif</td>
-				<td>@if ($message->sender->id == Auth::user()->id) <i> @endif {{ $message->content }} @if ($message->sender->id == Auth::user()->id) </i> @endif</td>
-				<td><a class="btn-xs pull-right" href="/message/{{ $message->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
-			</tr>
-			@endforeach
-		</table>
+					@if ($message->sender->id == Auth::user()->id) <i>Moi</i>
+					@else <b> {{ $message->sender->name }} </b>
+					@endif</td>
+					<td>@if ($message->sender->id == Auth::user()->id) <i> @endif {{ $message->content }} @if ($message->sender->id == Auth::user()->id) </i> @endif</td>
+					<td><a class="btn-xs pull-right" href="/message/{{ $message->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
+				</tr>
+				@endforeach
+			</table>
 
-		@endsection
+			@endsection
