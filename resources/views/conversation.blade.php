@@ -21,7 +21,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6">
-			<h3><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i></h3>
+			<h3><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i> <a href="/conversation/{{ $conv->id }}"><i class="fa fa-refresh"></i></a></h3>
 		</div>
 		<div class="col-xs-6">
 			<div class="pull-right">
@@ -37,9 +37,6 @@
 			{{ csrf_field() }}
 			<div class="row">
 				<div class="form-group">
-					<div class="col-sm-1 col-xs-1">
-						<a href="/conversation/{{ $conv->id }}" class="btn btn-success"><i class="fa fa-lg fa-refresh"></i></a>
-					</div>
 					<div class="col-sm-11 col-xs-10">
 						<input type="text" class="form-control" name="msg" id="msg" placeholder="Message" autocomplete="off" autofocus>
 					</div>
