@@ -16,11 +16,12 @@
 	});
 
 	$(document).keyup(function(e) {
-		if(e.which != 13 and $( document.activeElement ).filter('input,textarea').length < 0) {
 			setTimeout(function() {
-				location.reload();
-			}, 30000);
-		}
+						if(e.which == 13 and $( document.activeElement ).filter('input,textarea').length < 0) {
+							window.location.reload(1);
+						}
+			}, 5000);
+		
 	});
 </script>
 @endsection
