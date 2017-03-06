@@ -20,12 +20,11 @@
 @section('content')
 <div class="container">
 	<div class="row">
-		<div class="col-sm-5">
-			<h2><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i></h2>
+		<div class="col-sm-6">
+			<h3><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i> <a href="/conversation/{{ $conv->id }}" class="btn btn-success"><i class="fa fa-lg fa-refresh"></i></a></h3>
 		</div>
-		<div class="col-xs-7">
+		<div class="col-xs-6">
 			<div class="pull-right">
-			<a href="/conversation/{{ $conv->id }}" class="btn btn-success"><i class="fa fa-lg fa-refresh"></i></a>
 				{{ $messages->links() }}
 			</div>
 		</div>
