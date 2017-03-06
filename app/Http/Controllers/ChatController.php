@@ -252,7 +252,7 @@ class ChatController extends Controller
 		$convInfoUser = $conv->destUser->name;
 		$convInfomail = $conv->destUser->email;
 
-		foreach ($lessages as $message) {
+		foreach ($messages as $message) {
 			if ($message->fromUser == $user->id) $msgFromMe[$message->id] = true;
 			else $msgFromMe[$message->id] = false;
 		}
