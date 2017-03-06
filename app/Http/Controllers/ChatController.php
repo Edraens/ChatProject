@@ -261,6 +261,7 @@ class ChatController extends Controller
 			'done' => 'true',
 			'conv' => $conv,
 			'messages' => $messages,
+			'destUsername' => $conv->destUser->name;
 			'msgFromMe' => $msgFromMe,
 			]);
 	}
