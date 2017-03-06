@@ -24,6 +24,7 @@ class UserController extends Controller
 			]);
 		$user = User::where('id', Auth::user()->id)->first();
 		$user->name = Input::get('name');
+		if (Input::get('password') != '') $user->password = Hash::make(Input::get('password'));
 		$user->save();
 		return redirect('/account');
 	}

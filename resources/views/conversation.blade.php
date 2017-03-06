@@ -57,7 +57,10 @@
 			</thead>
 			@foreach ($messages as $message)
 			<tr data-toggle="tooltip" title="{{ $message->created_at->format('d/m/Y H:i:s') }}" data-placement="top">
-				<td>@if ($message->unread) <i class="fa fa-exclamation-circle"></i> @endif @if ($message->sender->id == Auth::user()->id) <i> @else <b> @endif {{ $message->sender->name }} @if ($message->sender->id == Auth::user()->id) </i> @else </b> @endif</td>
+				<td>@if ($message->unread) <i class="fa fa-exclamation-circle"></i> @endif 
+				@if ($message->sender->id == Auth::user()->id) <i>Moi</i>
+				@else <b> {{ $message->sender->name }} </b>
+				@endif</td>
 				<td>@if ($message->sender->id == Auth::user()->id) <i> @endif {{ $message->content }} @if ($message->sender->id == Auth::user()->id) </i> @endif</td>
 				<td><a class="btn-xs pull-right" href="/message/{{ $message->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
 			</tr>
