@@ -30,7 +30,6 @@ Route::get('/message/{id}/delete', 'ChatController@deleteMessage')->where('id', 
 
 Route::get('/account', 'UserController@index');
 Route::post('/account', 'UserController@edit');
-
 Route::get('/token/get', 'TokenController@get');
 Route::get('/token/renew', 'TokenController@renew');
 
@@ -46,6 +45,5 @@ Route::get('/api/{token}/conversation/delete/{id}', 'ChatController@APIdeleteCon
 Route::get('/api/{token}/conversation/open/{email}', 'ChatController@APIopenConversation')->where('token', '[a-zA-Z0-9]+');
 Route::get('/api/{token}/conversation/show/{id}', 'ChatController@APIshow')->where(['token' => '[a-zA-Z0-9]+', 'id' => '[0-9]+']);
 Route::post('/api/{token}/conversation/send/{id}', 'ChatController@APIsend')->where(['token' => '[a-zA-Z0-9]+', 'id' => '[0-9]+']);
-
 
 Route::get('/api/{token}/message/delete/{id}', 'ChatController@APIdeleteMessage')->where(['token' => '[a-zA-Z0-9]+', 'id' => '[0-9]+']);

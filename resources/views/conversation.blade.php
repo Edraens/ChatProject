@@ -21,7 +21,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-5">
-			<h2><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i></h2>
+			<h2><b>{{ $conv->destUser->name }}</b> <i>({{ $conv->destUser->email }})</i><i class="fa fa-lg fa-refresh"></i></h2>
 		</div>
 		<div class="col-xs-7">
 			<div class="pull-right">

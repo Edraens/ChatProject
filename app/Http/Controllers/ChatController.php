@@ -80,8 +80,6 @@ class ChatController extends Controller
 		$conv->hasUnread = false;
 		$conv->save();
 
-		
-
 		return view('conversation', ['conv' => $conv, 'messages' => $messages]);
 	}
 
