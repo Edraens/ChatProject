@@ -85,7 +85,7 @@ class ContactsController extends Controller
 		$name = Input::get('name');
 		$email = Input::get('email');	
 
-		$checkExists = Contact::where('email', $email)->first();
+		$checkExists = Contact::where([['userId', '=', $user->id], ['email', '=', $email]])->first();
 		if (!is_null($checkExists)) {
 			return response()->json([
 				'done' => 'false',
