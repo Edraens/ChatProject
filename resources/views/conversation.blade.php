@@ -96,8 +96,8 @@ window.addEventListener("keypress", reset, false);
 					@endif</td>
 					<td>@if ($message->sender->id == Auth::user()->id) <i> @endif {{ $message->content }} @if ($message->sender->id == Auth::user()->id) </i> @endif</td>
 					<td><a class="btn-xs pull-right" href="/message/{{ $message->id }}/delete" role="button"><i class="fa fa-trash-o"></i></a></td>
-				</tr>
-				@endforeach
-			</table>
+			</tr>
+			@endforeach
+		</table>
 
 			@endsection

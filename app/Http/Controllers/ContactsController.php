@@ -13,14 +13,15 @@ use Validator;
 class ContactsController extends Controller
 {
 	public function showall(){
+		// Vérif. connexion de l'utilisateur
 		if (!Auth::check()) return redirect('/login');
 		$contacts = Contact::where('userId', Auth::user()->id)->get();
-		// return response()->json($contacts);
 		return view('contacts', ['contacts' => $contacts]);
 	}
 
 	public function add(Request $request){
 		if (!Auth::check()) return redirect('/login');
+		// Vérification des entrées de l'utilisateur
 		$this->validate($request, [
 			'name' => 'max:40|required',
 			'email' => 'max:40|required|email',
@@ -28,12 +29,13 @@ class ContactsController extends Controller
 		$userId = Auth::user()->id;
 		$name = Input::get('name');
 		$email = Input::get('email');	
-
+		// Vérif. si l'utilisateur a déjà ce contact
 		$checkExists = Contact::where([['userId', '=', Auth::user()->id], ['email', '=', $email]])->first();
 		if (!is_null($checkExists)) {
+			// Si oui, redirection sur la page des contacts
 			return redirect('/contacts');
 		}
-
+		// Si non, ajout du contact
 		Contact::create([
 			'userId' => $userId,
 			'name' => $name,
@@ -44,8 +46,11 @@ class ContactsController extends Controller
 
 	public function delete($id){
 		if (!Auth::check()) return redirect('/login');
+		// Recherche du contact selon son id
 		$contact = Contact::where('id', $id)->firstOrFail();
+		// Vérif. si le contact appartient à l'utilisateur
 		if ($contact->userId != Auth::user()->id) return redirect('/login');
+		// Suppression du contact
 		$contact->forceDelete();
 		return redirect('/contacts');
 	}

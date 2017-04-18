@@ -13,26 +13,30 @@ use Validator;
 
 class ChatController extends Controller
 {
+	//Affichage de la page d'accueil
 	public function index(){
 		if (!Auth::check()) return view('index');
+		// Récupération des infos utilisateur et du token d'API (et création si non existant)
 		$user = User::where('id', Auth::user()->id)->first();
 		$token = Token::where('userId', Auth::user()->id)->first();
 		if (is_null($token)) return redirect ('/token/renew');
-
+		// Récupération des conversations et de leur dernier message
 		$conversations = Conversation::where('userId', Auth::user()->id)->orderBy('lastActivity', 'desc')->get();
 		$lastMessage = "";
 		foreach ($conversations as $conversation) {
 			$lastMessage[$conversation->id] = Message::where('conversationId', $conversation->id)->orderBy('created_at', 'desc')->first();
 			if (empty($lastMessage[$conversation->id])) $lastMessage[$conversation->id] = "";
 		}
-		return view('conversationList', ['conversations' => $conversations, 'user' => $user, 'lastMessage' => $lastMessage]); // 'token' => $token->token, 
+		// Renvoi de la vue des conversations
+		return view('conversationList', ['conversations' => $conversations, 'user' => $user, 'lastMessage' => $lastMessage]);
 	}
-
+	// Ouverture d'une conversation avec l'email d'un correspondant
 	public function openConversation($email){
 		if (!Auth::check()) return redirect('/login');
+		// Recherche du correspondant, et renvoi de la 404 si introuvable
 		$findDest = User::where('email', $email)->firstOrFail();
 		if ($findDest->id == Auth::user()->id) return view('errors/404');
-		
+		// Recherche d'une conversation déjà ouverte et ouverture
 		$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();
 		if (is_null($findConversation)) {
 			Conversation::create([
@@ -43,6 +47,7 @@ class ChatController extends Controller
 				]);
 			$findConversation = Conversation::where([['userId', '=', Auth::user()->id], ['destId', '=', $findDest->id]])->first();
 		}
+		// Renvoi de la page de la conversation
 		return redirect('/conversation/'.$findConversation->id);
 	}
 
