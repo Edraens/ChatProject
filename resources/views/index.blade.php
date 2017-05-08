@@ -12,7 +12,13 @@
 @endsection
 
 @section('content')
-<div class="container">
-	<h1>ChatProject, WIP !</h1>
+<div class="jumbotron">
+  <h1 class="display-3">ChatProject</h1>
+  <p class="lead">Discutez sans limite, gratuitement, avec une adresse e-mail.</p>
+  <hr class="my-4">
+  <p>Inscrivez vous dès maintenant :</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="/register" role="button">Inscription</a>
+  </p>
 </div>
 @endsection
