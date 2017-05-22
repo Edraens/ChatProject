@@ -14,7 +14,7 @@
 @section('content')
 <div class="container">
 	<div class="jumbotron">
-		<h1 class="display-3">ChatProject </h1>
+		<h1 class="display-3">ChatProject test</h1>
 		<p class="lead">Discutez sans limite, gratuitement, avec une adresse e-mail.</p>
 		<hr class="my-6">
 		<p><i>Inscrivez vous dès maintenant :</i></p>
