@@ -30,7 +30,8 @@
 		<div class="col-md-3"><h2>Conversations</h2></div>
 		<div class="pull-right col-md-4 hidden-sm hidden-xs">
 			<span class="pull-right">{{ $user->name }} <i>({{ $user->email }})</i></span><br />
-			<i class="pull-right">Token : {{ $user->token->token }} <a href="/token/renew">(Renouveler)</a></i>		
+			<i class="pull-right">Token : {{ $user->token->token }} <a href="/token/renew">(Renouveler)</a></i>
+			<a class="btn btn-sm btn-info pull-right" target="_blank" href="https://space.edra.ovh/s/edANt4sk7OmAKKB/download">Télécharger le client</a>	
 		</div>
 	</div>
 	<br />
@@ -64,7 +65,7 @@
 	</table>
 
 	<div class="row pull-right">
-		<div class="col-xs-3">
+		<div class="col-xs-4">
 			<button type="submit" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#newConv">Nouvelle conversation</button>
 		</div>
 	</div>
