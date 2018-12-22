@@ -1,46 +1,30 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Laravel template
+vendor/
+node_modules/
+npm-debug.log
 
-# Created by https://www.gitignore.io/api/sublimetext,laravel
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
 
-### SublimeText ###
-# cache files for sublime text
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-
-# workspace files are user-specific
-*.sublime-workspace
-
-# project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using SublimeText
-*.sublime-project
-
-# sftp configuration file
-sftp-config.json
-.remote-sync.json
-
-# Package control specific files
-Package Control.last-run
-Package Control.ca-list
-Package Control.ca-bundle
-Package Control.system-ca-bundle
-Package Control.cache/
-Package Control.ca-certs/
-.c9/
-bh_unicode_properties.cache
-
-# Sublime-github package stores a github token in this file
-# https://packagecontrol.io/packages/sublime-github
-GitHub.sublime-settings
-
-
-### Laravel ###
-/bootstrap/compiled.php
-/vendor
-/node_modules
-Homestead.yaml
-Homestead.json
-.env.local.php
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+storage/*.key
+.env.*.php
 .env.php
 .env
-composer.phar
-composer.lock
+Homestead.yaml
+Homestead.json
+
+# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
+.rocketeer/
+### IntelliJ idea directories template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
